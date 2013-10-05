@@ -36,5 +36,27 @@ describe JavaVersionParser do
       specify { u51.should == u51 }
       specify { jdk8u0.should == jdk8u0 }
     end
+
+    describe '#next_limited_update' do
+      context 'when update number is 45' do
+        let(:u45) { JavaVersionParser.parse("JDK7u45") }
+
+        subject { u45.next_limited_update }
+
+        it { should_not == u45 }
+        its(:family_number) { should == 7 }
+        its(:update_number) { should == 60 }
+      end
+
+      context 'when update number is 60' do
+        let(:u60) { JavaVersionParser.parse("JDK7u60") }
+
+        subject { u60.next_limited_update }
+
+        it { should_not == u60 }
+        its(:family_number) { should == 7 }
+        its(:update_number) { should == 80 }
+      end
+    end
   end
 end

@@ -16,8 +16,13 @@ class JavaVersionParser
 
   class Result < Struct.new(:family_number, :update_number)
     include Comparable
+
     def <=>(other)
       (self.family_number <=> other.family_number).nonzero? || self.update_number <=> other.update_number
+    end
+
+    def next_limited_update
+      self.class.new(self.family_number, (self.update_number / 20 + 1) * 20)
     end
   end
 end
