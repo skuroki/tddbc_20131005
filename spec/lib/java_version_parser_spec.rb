@@ -19,4 +19,22 @@ describe JavaVersionParser do
       expect { JavaVersionParser.parse("JDK7u9x") }.to raise_error JavaVersionParser::InvalidSource
     end
   end
+
+  describe '::Result' do
+    describe 'comparisons' do
+      let(:u40) { JavaVersionParser.parse("JDK7u40") }
+      let(:u51) { JavaVersionParser.parse("JDK7u51") }
+      let(:jdk8u0) { JavaVersionParser.parse("JDK8u0") }
+
+      specify { u40.should < u51 }
+      specify { u51.should > u40 }
+      specify { u51.should < jdk8u0 }
+      specify { jdk8u0.should > u51 }
+      specify { u40.should < jdk8u0 }
+      specify { jdk8u0.should > u40 }
+      specify { u40.should == u40 }
+      specify { u51.should == u51 }
+      specify { jdk8u0.should == jdk8u0 }
+    end
+  end
 end
